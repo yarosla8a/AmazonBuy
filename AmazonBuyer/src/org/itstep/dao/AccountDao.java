@@ -21,7 +21,6 @@ public class AccountDao {
 			statement.setString(3, account.getLogin());
 			statement.setString(4, account.getPassword());
 			statement.executeUpdate();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -38,44 +37,43 @@ public class AccountDao {
 		}
 	}
 
-	public AmazonAcc get(String firstName, String secondName) {
+	 public AmazonAcc get(String login) {
+		  AmazonAcc account = new AmazonAcc();
+		  Connection connection = null;
+		  PreparedStatement statement = null;
+		  ResultSet resultSet = null;
+		  String sql = "SELECT * FROM accounts WHERE login=?";
 
-		AmazonAcc account = new AmazonAcc();
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		String sql = "SELECT * FROM accounts WHERE first_name=? AND second_name=?";
-
-		try {
-			connection = ConnectionToDB.getConnection();
-			statement = connection.prepareStatement(sql);
-			statement.setString(1, firstName);
-			statement.setString(2, secondName);
-			resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				account.setFirstName(resultSet.getString("first_name"));
-				account.setSecondName(resultSet.getString("second_name"));
-				account.setLogin(resultSet.getString("login"));
-				account.setPassword(resultSet.getString("password"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				resultSet.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		  try {
+		   connection = ConnectionToDB.getConnection();
+		   statement = connection.prepareStatement(sql);
+		   statement.setString(1, login);
+		   resultSet = statement.executeQuery();
+		   while (resultSet.next()) {
+		    account.setFirstName(resultSet.getString("first_name"));
+		    account.setSecondName(resultSet.getString("second_name"));
+		    account.setLogin(resultSet.getString("login"));
+		    account.setPassword(resultSet.getString("password"));
+		   }
+		  } catch (SQLException e) {
+		   e.printStackTrace();
+		  } finally {
+		   try {
+		    resultSet.close();
+		   } catch (SQLException e) {
+		    e.printStackTrace();
+		   }
+		   try {
+		    statement.close();
+		   } catch (SQLException e) {
+		    e.printStackTrace();
+		   }
+		   try {
+		    connection.close();
+		   } catch (SQLException e) {
+		    e.printStackTrace();
+		   }
+		  
 		}
 		return account;
 	}

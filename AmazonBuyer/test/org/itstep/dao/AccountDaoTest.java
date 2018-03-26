@@ -22,12 +22,12 @@ public class AccountDaoTest {
 		password = "1111";
 
 	}
-	@After
-	public void deletAccountAfterTest() {
-		AccountDao accDao = new AccountDao();
-		accDao.delete(firstName, secondName);
-		
-	}
+//	@After
+//	public void deletAccountAfterTest() {
+//		AccountDao accDao = new AccountDao();
+//		accDao.delete(firstName, secondName);
+//		
+//	}
 	@Test
 	public void testSave() {
 		AccountDao accDao = new AccountDao();
@@ -45,8 +45,8 @@ public class AccountDaoTest {
 		AccountDao accDao = new AccountDao();
 		AmazonAcc account = new AmazonAcc(firstName, secondName, login, password);
 
-		accDao.get(firstName, secondName);
-		assertNotNull(accDao.get(firstName, secondName));
+		accDao.get(account.getLogin());
+		assertNotNull(accDao.get(login));
 
 	}
 
@@ -54,7 +54,7 @@ public class AccountDaoTest {
 	public void testUpdate() {
 		AccountDao accDao = new AccountDao();
 
-		assertNotNull(accDao.get(firstName, secondName).getLogin());
+		assertNotNull(accDao.get(login).getFirstName());
 
 		AmazonAcc account = new AmazonAcc();
 		account.setFirstName("yfgfkyta");
@@ -64,7 +64,7 @@ public class AccountDaoTest {
 
 		accDao.update(firstName, secondName, account);
 
-		assertNull(accDao.get(firstName, secondName).getLogin());
+		assertNull(accDao.get(login).getFirstName());
 
 		firstName = account.getFirstName();
 		secondName = account.getSecondName();
@@ -77,11 +77,11 @@ public class AccountDaoTest {
 	public void testDelete() {
 		AccountDao accDao = new AccountDao();
 
-		assertNotNull(accDao.get(firstName, secondName).getLogin());
+		assertNotNull(accDao.get(login).getFirstName());
 
 		accDao.delete(firstName, secondName);
 
-		assertNull(accDao.get(firstName, secondName).getLogin());
+		assertNull(accDao.get(login).getFirstName());
 
 	}
 
